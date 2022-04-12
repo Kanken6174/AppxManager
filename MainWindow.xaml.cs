@@ -16,6 +16,7 @@ using System.Management.Automation;
 using System.Collections.ObjectModel;
 using System.Management.Automation.Runspaces;
 using AppxManager.controls;
+using AppxManager.model;
 
 namespace AppxManager
 {
@@ -53,6 +54,7 @@ namespace AppxManager
                 foreach( PSObject apx in PSIResults)
                 {
                     Appx appx = new Appx();
+                    AppxPackage appxPackage = new AppxPackage(apx);
                     appx.appxID = apx.BaseObject.ToString();
                     stacker.Children.Add(appx);
                     _items.Add(appx);

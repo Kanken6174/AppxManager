@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppxManager.model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,9 +20,9 @@ namespace AppxManager.controls
     /// <summary>
     /// Logique d'interaction pour appx.xaml
     /// </summary>
-    public partial class Appx : UserControl, INotifyPropertyChanged
+    public partial class Appx : UserControl
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public AppxPackage myPackage;
         public bool isInstalled { get; set; } = false;
         public string appxID { get; set; } = "";
 
