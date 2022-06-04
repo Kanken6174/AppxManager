@@ -8,8 +8,10 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="Scan for AppX packages" HorizontalAlignment="Center" Margin="0,389,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.893,2.006" Click="Button_Click"/>
-        <ScrollViewer x:Name="Scroller" Margin="0,0,0,65">
-            <StackPanel x:Name="stacker"/>
-        </ScrollViewer>
+        <DockPanel Margin="10,10,10,65">
+            <ScrollViewer x:Name="Scroller">
+                <StackPanel x:Name="stacker"/>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
 </Window>

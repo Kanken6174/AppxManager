@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Management.Automation;
+using System.Management.Automation.Runspaces;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,31 +11,31 @@ namespace AppxManager.model
 {
     public class AppxPackage
     {
-        public string Name;
-        public string Publisher;
-        public string PublisherId;
-        public string Architecture;
-        public string ResourceId;
-        public string Version;
-        public string PackageFamilyName;
-        public string PackageFullName;
-        public string InstallLocation;
-        public string PackageUserInformation;
-        public string DependenciesRaw;
+        public string Name { get; set; } = "sample";
+        public string Publisher { get; set; }
+        public string PublisherId { get; set; }
+        public string Architecture { get; set; }
+        public string ResourceId { get; set; }
+        public string Version { get; set; }
+        public string PackageFamilyName { get; set; }
+        public string PackageFullName { get; set; }
+        public string InstallLocation { get; set; }
+        public string PackageUserInformation { get; set; }
+        public string DependenciesRaw { get; set; }
         public List<string> Dependencies = new List<string>();
 
-        public bool IsFramework;
-        public bool IsResourcePackage;
-        public bool IsBundle;
-        public bool IsDevelopmentMode;
-        public bool NonRemovable;
-        public bool IsPartiallyStaged;
+        public bool IsFramework { get; set; }
+        public bool IsResourcePackage { get; set; }
+        public bool IsBundle { get; set; }
+        public bool IsDevelopmentMode { get; set; }
+        public bool NonRemovable { get; set; }
+        public bool IsPartiallyStaged { get; set; }
 
 
-        public string SignatureKind;
-        public string Status;
+        public string SignatureKind { get; set; }
+        public string Status { get; set; }
 
-
+        public string DisplayName { get; set; }
 
         public AppxPackage(PSObject v)
         {

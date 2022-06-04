@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="AppxManager.controls.appxListEntry"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppxManager.controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="700">
+    <DockPanel Background="Teal" HorizontalAlignment="Right">
+        <DockPanel LastChildFill="False" Width="580" DockPanel.Dock="Left" Background="Gray">
+            <Image x:Name="logo" Source="/controls/winapp.jpg" Height="40" Width="55"></Image>
+            <Label x:Name="appxName" Content="samplename" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </DockPanel>
+        <DockPanel Background="AliceBlue" LastChildFill="False" Width="115" DockPanel.Dock="Left">
+            <Button Content="Uninstall" Width="55" Click="Button_Click"/>
+            <Button Content="Install" DockPanel.Dock="Right" Width="55" Click="Button_Click_1"/>
+        </DockPanel>
+
+    </DockPanel>
+</UserControl>

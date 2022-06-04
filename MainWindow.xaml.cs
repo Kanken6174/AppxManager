@@ -17,6 +17,8 @@ using System.Collections.ObjectModel;
 using System.Management.Automation.Runspaces;
 using AppxManager.controls;
 using AppxManager.model;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace AppxManager
 {
@@ -25,13 +27,17 @@ namespace AppxManager
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Appx> _items = new System.Collections.Generic.List<Appx>();
+        private List<appxListEntry> _items = new List<appxListEntry>();
         public MainWindow()
         {
             InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            LoadAppx();
+        }
+        private void LoadAppx()
         {
             var sessionState = InitialSessionState.CreateDefault();
             sessionState.ExecutionPolicy = Microsoft.PowerShell.ExecutionPolicy.Unrestricted;
@@ -40,7 +46,7 @@ namespace AppxManager
             {
                 powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;Get-AppxPackage");
 
-                Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");
+                Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass -Version 2.0");
                 Collection<ErrorRecord> Errors = powershell.Streams.Error.ReadAll();
                 int i = 0;
                 stacker.Children.Clear();
@@ -48,17 +54,22 @@ namespace AppxManager
                 {
                     Label lbl = new Label();
                     lbl.Content = error.Exception.Message.ToString();
-                    stacker.Children.Add(lbl);
+                    App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        stacker.Children.Add(lbl);
+                    }, null);
                     i += 20;
                 }
-                foreach( PSObject apx in PSIResults)
+                foreach (PSObject apx in PSIResults)
                 {
-                    Appx appx = new Appx();
+                    appxListEntry appx = new appxListEntry();
                     AppxPackage appxPackage = new AppxPackage(apx);
-                    appx.appxID = apx.BaseObject.ToString();
+                    appx.setAppx(appxPackage);
                     stacker.Children.Add(appx);
                     _items.Add(appx);
                 }
+                TaskQueueManager.StartAsync();
+                powershell.Stop();
                 powershell.Dispose();
             }
         }
