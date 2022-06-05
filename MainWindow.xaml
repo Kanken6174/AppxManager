@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppxManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Simple Appx manager" Height="450" Width="800">
     <Grid Background="Gray">
         <Button Content="Scan for AppX packages" HorizontalAlignment="Center" Margin="0,389,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.893,2.006" Click="Button_Click"/>
         <DockPanel Margin="0,0,0,65">
-            <ScrollViewer x:Name="Scroller">
+            <ScrollViewer x:Name="Scroller" DockPanel.Dock="Left">
                 <StackPanel x:Name="stacker"/>
             </ScrollViewer>
         </DockPanel>
+        <CheckBox x:Name="AllUserCheckbox" Content="AllUsers (unstable)" HorizontalAlignment="Left" Margin="502,392,0,0" VerticalAlignment="Top" Checked="AllUserCheckbox_Checked" Unchecked="AllUserCheckbox_Unchecked"/>
     </Grid>
 </Window>

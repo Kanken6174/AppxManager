@@ -6,6 +6,7 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AppxManager.model
 {
@@ -14,61 +15,72 @@ namespace AppxManager.model
 
         public static void UninstallAppx(AppxPackage toUninstall)
         {
-            using (RunspacePool rsp = RunspaceFactory.CreateRunspacePool())
+            MessageBoxResult result = MessageBox.Show($"Would you like to uninstall the appx: {toUninstall.Name}?", "Uninstall prompt", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
             {
-                rsp.Open();
-                var sessionState = InitialSessionState.CreateDefault();
-                sessionState.ExecutionPolicy = Microsoft.PowerShell.ExecutionPolicy.Unrestricted;
-
-                using (PowerShell powershell = PowerShell.Create(sessionState))
+                using (RunspacePool rsp = RunspaceFactory.CreateRunspacePool())
                 {
-                    powershell.RunspacePool = rsp;
-                    powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;" +
-                                         $"Get-AppxPackage {toUninstall.Name} | remove-appxpackage");
-                    try
-                    {
-                        Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");
-                        Collection<ErrorRecord> Errors = powershell.Streams.Error.ReadAll();
-                    }
-                    catch (Exception ex)
-                    {
+                    rsp.Open();
+                    var sessionState = InitialSessionState.CreateDefault();
+                    sessionState.ExecutionPolicy = Microsoft.PowerShell.ExecutionPolicy.Unrestricted;
 
+                    using (PowerShell powershell = PowerShell.Create(sessionState))
+                    {
+                        powershell.RunspacePool = rsp;
+                        powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;" +
+                                             $"Get-AppxPackage {(appSettings.AllUsers ? "-AllUsers" : String.Empty)} {toUninstall.Name} | remove-appxpackage");
+                        try
+                        {
+                            Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");
+                            Collection<ErrorRecord> Errors = powershell.Streams.Error.ReadAll();
+                            if (Errors.Count > 0)
+                                foreach (ErrorRecord error in Errors)
+                                    MessageBox.Show(error.Exception.Message.ToString());
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                        powershell.Dispose();
                     }
-                    powershell.Dispose();
+                    sessionState = null;
+                    rsp.Close();
+                    rsp.Dispose();
                 }
-                sessionState = null;
-                rsp.Close();
-                rsp.Dispose();
             }
         }
 
         public static void InstallAppx(AppxPackage toInstall)
         {
-            using (RunspacePool rsp = RunspaceFactory.CreateRunspacePool())
+            MessageBoxResult result = MessageBox.Show($"Would you like to install and enable the appx: {toInstall.Name}? A reboot will be required for the changes to be visible.", "install prompt", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
             {
-                rsp.Open();
-                var sessionState = InitialSessionState.CreateDefault();
-                sessionState.ExecutionPolicy = Microsoft.PowerShell.ExecutionPolicy.Unrestricted;
-
-                using (PowerShell powershell = PowerShell.Create(sessionState))
+                using (RunspacePool rsp = RunspaceFactory.CreateRunspacePool())
                 {
-                    powershell.RunspacePool = rsp;
-                    powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;" +
-                                         $"Add-AppxPackage -DisableDevelopmentMode -Register \"{toInstall.InstallLocation}\\AppXManifest.xml\"");
-                    try
-                    {
-                        Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");
-                        Collection<ErrorRecord> Errors = powershell.Streams.Error.ReadAll();
-                    }
-                    catch (Exception ex)
-                    {
+                    rsp.Open();
+                    var sessionState = InitialSessionState.CreateDefault();
+                    sessionState.ExecutionPolicy = Microsoft.PowerShell.ExecutionPolicy.Unrestricted;
 
+                    using (PowerShell powershell = PowerShell.Create(sessionState))
+                    {
+                        powershell.RunspacePool = rsp;
+                        powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;" +
+                                             $"Add-AppxPackage -DisableDevelopmentMode -Register \"{toInstall.InstallLocation}\\AppXManifest.xml\"");
+                        try
+                        {
+                            Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");
+                            Collection<ErrorRecord> Errors = powershell.Streams.Error.ReadAll();
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+                        powershell.Dispose();
                     }
-                    powershell.Dispose();
+                    sessionState = null;
+                    rsp.Close();
+                    rsp.Dispose();
                 }
-                sessionState = null;
-                rsp.Close();
-                rsp.Dispose();
             }
         }
 

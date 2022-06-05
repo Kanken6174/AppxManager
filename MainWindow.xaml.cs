@@ -35,6 +35,9 @@ namespace AppxManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            _items.Clear();
+            stacker.Children.Clear();
+            TaskQueueManager.StopAll();
             LoadAppx();
         }
         private void LoadAppx()
@@ -44,7 +47,7 @@ namespace AppxManager
 
             using (PowerShell powershell = PowerShell.Create(sessionState))
             {
-                powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;Get-AppxPackage");
+                powershell.AddScript($"Import-Module -Name Appx -UseWIndowsPowershell;Get-AppxPackage {(appSettings.AllUsers ? "-AllUsers" : String.Empty)} ");
 
                 Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass -Version 2.0");
                 Collection<ErrorRecord> Errors = powershell.Streams.Error.ReadAll();
@@ -72,6 +75,16 @@ namespace AppxManager
                 powershell.Stop();
                 powershell.Dispose();
             }
+        }
+
+        private void AllUserCheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            appSettings.AllUsers = true;
+        }
+
+        private void AllUserCheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            appSettings.AllUsers = false;
         }
     }
 }

@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AppxManager.controls"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="700">
-    <DockPanel Background="Teal" HorizontalAlignment="Right">
-        <DockPanel LastChildFill="False" Width="580" DockPanel.Dock="Left" Background="Gray">
-            <Image x:Name="logo" Source="/controls/winapp.jpg" Height="40" Width="55"></Image>
+             d:DesignHeight="50" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="1">
+    <DockPanel Background="Gray" HorizontalAlignment="Stretch">
+        <DockPanel LastChildFill="False" DockPanel.Dock="Left" Background="Gray">
+            <Image x:Name="logo" Source="/controls/winapp.jpg" Height="40" Width="55" DockPanel.Dock="Left"></Image>
             <Label x:Name="appxName" Content="samplename" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </DockPanel>
-        <DockPanel Background="AliceBlue" LastChildFill="False" Width="115" DockPanel.Dock="Left">
-            <Button Content="Uninstall" Width="55" Click="Button_Click"/>
-            <Button Content="Install" DockPanel.Dock="Right" Width="55" Click="Button_Click_1"/>
+        <DockPanel Background="Gray" LastChildFill="False" Width="115" DockPanel.Dock="Right" HorizontalAlignment="Right">
+            <Button Content="Uninstall" Width="55" Click="Button_Click" HorizontalAlignment="Right"/>
+            <Button Content="Install" DockPanel.Dock="Right" Width="55" Click="Button_Click_1" HorizontalAlignment="Right"/>
         </DockPanel>
 
     </DockPanel>

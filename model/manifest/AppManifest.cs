@@ -47,7 +47,7 @@ namespace AppxManager.model
 
                     powershell.RunspacePool = rsp;
                     powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;" +
-                                         "Get-AppxPackage '" + package + "' | Get-AppxPackageManifest");
+                                         $"Get-AppxPackage '{package}' {(appSettings.AllUsers ? " - AllUsers" : String.Empty)} | Get-AppxPackageManifest");
                     try
                     {
                         Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");
@@ -68,7 +68,7 @@ namespace AppxManager.model
                 {
                     powershell.RunspacePool = rsp;
                     powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;" +
-                                         "$manifest = Get-AppxPackage '" + package + "' | Get-AppxPackageManifest;" +
+                                         $"$manifest = Get-AppxPackage '{package}' {(appSettings.AllUsers ? "-AllUsers" : String.Empty)} | Get-AppxPackageManifest;" +
                                          "$manifest.Package.Properties");
 
                     Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");

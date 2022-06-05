@@ -95,7 +95,11 @@ namespace AppxManager.controls
                 }, null);
                 
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch (NullReferenceException ex)
+            {
+
+            }
+            catch (Exception e)
             {
 
             }

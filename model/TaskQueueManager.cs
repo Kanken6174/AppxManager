@@ -13,20 +13,32 @@ namespace AppxManager.model
     {
         public static List<Task> Queue = new List<Task>();
 
+        public static void StopAll()
+        {
+            Queue.Clear();
+        }
+
         public static void StartAsync()
         {
-            Parallel.ForEach(Queue.Chunk(35),
-            currentElement =>
+            try
             {
-                Task.Run(() =>
+                Parallel.ForEach(Queue.Chunk(35),
+                currentElement =>
                 {
-                    foreach (Task task in currentElement)
+                    Task.Run(() =>
                     {
-                        if(task.Status != TaskStatus.Running)
-                            task.RunSynchronously();
-                    }
+                        foreach (Task task in currentElement)
+                        {
+                            if (task.Status != TaskStatus.Running)
+                                task.RunSynchronously();
+                        }
+                    });
                 });
-            });
+            }
+            catch(NullReferenceException ex)
+            {
+                return;
+            }
         }
     }
 }
