@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:AppxManager"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Background="Gray">
         <Button Content="Scan for AppX packages" HorizontalAlignment="Center" Margin="0,389,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.893,2.006" Click="Button_Click"/>
-        <DockPanel Margin="10,10,10,65">
+        <DockPanel Margin="0,0,0,65">
             <ScrollViewer x:Name="Scroller">
                 <StackPanel x:Name="stacker"/>
             </ScrollViewer>

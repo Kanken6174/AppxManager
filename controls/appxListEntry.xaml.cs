@@ -26,6 +26,9 @@ namespace AppxManager.controls
     {
         public AppxPackage myAppx { get; set; }
         public appManifestPackage myManifest { get; set; }
+
+        public bool installed { get; set; } = true;
+
         public appxListEntry()
         {
             InitializeComponent();
@@ -50,6 +53,7 @@ namespace AppxManager.controls
                     logopath = logopathlm;
                 string logopathlg = logopath.Insert(logopath.IndexOf('.'), ".scale-200");
                 string absoluteLogoPath = myAppx.InstallLocation + @"\" + logopathlg;
+                BitmapImage bmp = new BitmapImage();
                 if (File.Exists(absoluteLogoPath))
                 {
                     App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -85,6 +89,11 @@ namespace AppxManager.controls
                         logo.Source = new BitmapImage(new Uri(myAppx.InstallLocation + @"\" + logopath.Insert(logopath.IndexOf('.'), ".scale-100"), UriKind.Absolute));
                     }, null);
                 }
+                App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    appxName.Content = $"{myAppx.Name} | {((myManifest.Properties.DisplayName == "ms-resource:AppName") ? "no valid app name" : myManifest.Properties.DisplayName)}";
+                }, null);
+                
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -92,14 +101,14 @@ namespace AppxManager.controls
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e) //install
         {
-
+            appxManager.UninstallAppx(myAppx);
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)   //uninstall
         {
-
+            appxManager.InstallAppx(myAppx);
         }
     }
 }
