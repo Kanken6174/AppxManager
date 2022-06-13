@@ -45,6 +45,13 @@ namespace AppxManager.controls
             try
             {
                 string logopath = "", logopathlm = myAppx.Manifest.Properties.Logo;
+                if(myAppx.Manifest.Properties.Logo == null){
+                    App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        appxName.Content = $"{myAppx.Name} | {((myAppx.Manifest.Properties.DisplayName == null || myAppx.Manifest.Properties.DisplayName == "ms-resource:AppName") ? "no valid app name" : myAppx.Manifest.Properties.DisplayName)}";
+                    }, null);
+                    return;
+                }
                 if (!logopathlm.Contains("Assets"))
                     logopath = @"Assets\" + logopathlm;
                 else
@@ -84,7 +91,14 @@ namespace AppxManager.controls
                 {
                     App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        logo.Source = new BitmapImage(new Uri(myAppx.InstallLocation + @"\" + logopath.Insert(logopath.IndexOf('.'), ".scale-100"), UriKind.Absolute));
+                        logo.Source = new BitmapImage(new Uri(myAppx.InstallLocation + @"\uwp\" + logopath.Insert(logopath.IndexOf('.'), ".scale-100"), UriKind.Absolute));
+                    }, null);
+                }
+                else if (File.Exists(myAppx.InstallLocation + @"\images\" + logopath.Insert(logopath.IndexOf('.'), ".scale-100")))
+                {
+                    App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        logo.Source = new BitmapImage(new Uri(myAppx.InstallLocation + @"\images\" + logopath.Insert(logopath.IndexOf('.'), ".scale-100"), UriKind.Absolute));
                     }, null);
                 }
                 App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate

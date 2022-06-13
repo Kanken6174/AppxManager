@@ -6,10 +6,17 @@
         xmlns:local="clr-namespace:AppxManager"
         mc:Ignorable="d"
         Title="Simple Appx manager" Height="450" Width="800">
+    <Window.Resources>
+        <AlternationConverter x:Key="AlternationConverter"/>
+    </Window.Resources>
     <Grid Background="Gray">
         <Button Content="Scan for AppX packages" HorizontalAlignment="Center" Margin="0,389,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.893,2.006" Click="Button_Click"/>
         <DockPanel Margin="0,0,0,65">
-            <ScrollViewer x:Name="Scroller" DockPanel.Dock="Left">
+            <DockPanel DockPanel.Dock="top" Height="40">
+                <TextBox x:Name="searchBox" DockPanel.Dock="Left" Width="760" Text="entrez votre recherche" FontSize="20" FontStretch="Normal" FontStyle="Normal"/>
+                <Button Width="40" DockPanel.Dock="Right" HorizontalAlignment="Right" Content="🔎" FontSize="26" Click="SearchButton_Click"/>
+            </DockPanel>
+            <ScrollViewer x:Name="Scroller" DockPanel.Dock="Top">
                 <StackPanel x:Name="stacker"/>
             </ScrollViewer>
         </DockPanel>

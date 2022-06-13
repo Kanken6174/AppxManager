@@ -20,6 +20,7 @@ using AppxManager.model;
 using System.Windows.Threading;
 using System.Threading;
 using AppxManager.model.Factories;
+using AppxManager.Extensions;
 
 namespace AppxManager
 {
@@ -58,6 +59,22 @@ namespace AppxManager
         private void AllUserCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
             appSettings.AllUsers = false;
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach(appxListEntry appx in _items)
+            {
+                bool hasDisplayName = (searchBox.Text != "" && appx.myAppx.DisplayName != null);
+                bool matches = false;
+                matches = appx.myAppx.Name.Contains_nocase(searchBox.Text);
+                if(hasDisplayName && !matches)
+                    matches = appx.myAppx.Manifest.Properties.DisplayName.Contains(searchBox.Text);
+                if(matches)
+                    appx.Visibility = Visibility.Visible;
+                else
+                    appx.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

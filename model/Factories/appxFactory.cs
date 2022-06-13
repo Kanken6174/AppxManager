@@ -30,7 +30,14 @@ namespace AppxManager.model.Factories
                 foreach (PSObject apx in PSIResults)
                 {
                     AppxPackage appxPackage = new AppxPackage(apx);
-                    appxPackage.Manifest = apl[index];
+                    if (index >= apl.Count)
+                    {
+                        appxPackage.Manifest = new appManifestPackage();
+                    }
+                    else
+                    {
+                        appxPackage.Manifest = apl[index]; 
+                    }
                     toReturn.Add(appxPackage);
                     index++;
                 }

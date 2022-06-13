@@ -22,7 +22,7 @@ namespace AppxManager.model
         {
             try
             {
-                Parallel.ForEach(Queue.Chunk(35),
+                Parallel.ForEach(Queue.Chunk(10),
                 currentElement =>
                 {
                     Task.Run(() =>

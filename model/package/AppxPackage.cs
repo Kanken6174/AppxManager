@@ -51,7 +51,7 @@ namespace AppxManager.model
                 Version = v.Members["Version"].Value.ToString();
                 PackageFamilyName = v.Members["PackageFamilyName"].Value.ToString();
                 PackageFullName = v.Members["PackageFullName"].Value.ToString();
-                InstallLocation = v.Members["InstallLocation"].Value.ToString();
+                InstallLocation = ((v.Members["InstallLocation"] != null) ? v.Members["InstallLocation"].Value.ToString() : "invalid");
 
                 IsFramework = (bool)v.Members["IsFramework"].Value;
                 PackageUserInformation = v.Members["PackageUserInformation"].Value.ToString();

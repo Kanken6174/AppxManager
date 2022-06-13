@@ -25,7 +25,7 @@ namespace AppxManager.model.Factories
 
                     powershell.RunspacePool = rsp;
                     powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;" +
-                                         $"Get-AppxPackage {(appSettings.AllUsers ? " - AllUsers" : String.Empty)} | Get-AppxPackageManifest");
+                                         $"Get-AppxPackage {(appSettings.AllUsers ? " -AllUsers" : String.Empty)} | Get-AppxPackageManifest");
                     try
                     {
                         Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");
@@ -33,13 +33,12 @@ namespace AppxManager.model.Factories
                         foreach (PSObject apx in PSIResults)
                         {
                             appManifestPackage toAdd = new appManifestPackage();
-                            toAdd.Xml = apx.Members["xml"].Value.ToString();
+                            toAdd.Xml = apx?.Members["xml"]?.Value?.ToString();
                             toReturn.Add(toAdd);
                         }
                     }
                     catch (Exception ex)
                     {
-
                     }
                     powershell.Dispose();
                 }
