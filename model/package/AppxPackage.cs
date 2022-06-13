@@ -36,6 +36,8 @@ namespace AppxManager.model
         public string Status { get; set; }
 
         public string DisplayName { get; set; }
+        public appManifestPackage Manifest { get; set; }
+
 
         public AppxPackage(PSObject v)
         {

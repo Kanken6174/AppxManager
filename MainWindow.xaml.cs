@@ -19,6 +19,7 @@ using AppxManager.controls;
 using AppxManager.model;
 using System.Windows.Threading;
 using System.Threading;
+using AppxManager.model.Factories;
 
 namespace AppxManager
 {
@@ -38,43 +39,15 @@ namespace AppxManager
             _items.Clear();
             stacker.Children.Clear();
             TaskQueueManager.StopAll();
-            LoadAppx();
-        }
-        private void LoadAppx()
-        {
-            var sessionState = InitialSessionState.CreateDefault();
-            sessionState.ExecutionPolicy = Microsoft.PowerShell.ExecutionPolicy.Unrestricted;
-
-            using (PowerShell powershell = PowerShell.Create(sessionState))
+            List<AppxPackage> apx = appxFactory.LoadAppxs();
+            foreach (AppxPackage pkg in apx)
             {
-                powershell.AddScript($"Import-Module -Name Appx -UseWIndowsPowershell;Get-AppxPackage {(appSettings.AllUsers ? "-AllUsers" : String.Empty)} ");
-
-                Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass -Version 2.0");
-                Collection<ErrorRecord> Errors = powershell.Streams.Error.ReadAll();
-                int i = 0;
-                stacker.Children.Clear();
-                foreach (ErrorRecord error in Errors)
-                {
-                    Label lbl = new Label();
-                    lbl.Content = error.Exception.Message.ToString();
-                    App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        stacker.Children.Add(lbl);
-                    }, null);
-                    i += 20;
-                }
-                foreach (PSObject apx in PSIResults)
-                {
-                    appxListEntry appx = new appxListEntry();
-                    AppxPackage appxPackage = new AppxPackage(apx);
-                    appx.setAppx(appxPackage);
-                    stacker.Children.Add(appx);
-                    _items.Add(appx);
-                }
-                TaskQueueManager.StartAsync();
-                powershell.Stop();
-                powershell.Dispose();
+                appxListEntry appx = new appxListEntry();
+                appx.setAppx(pkg);
+                stacker.Children.Add(appx);
+                _items.Add(appx);
             }
+            TaskQueueManager.StartAsync();
         }
 
         private void AllUserCheckbox_Checked(object sender, RoutedEventArgs e)

@@ -25,7 +25,6 @@ namespace AppxManager.controls
     public partial class appxListEntry : UserControl
     {
         public AppxPackage myAppx { get; set; }
-        public appManifestPackage myManifest { get; set; }
 
         public bool installed { get; set; } = true;
 
@@ -45,8 +44,7 @@ namespace AppxManager.controls
         {
             try
             {
-                myManifest = new appManifestPackage(myAppx.Name);
-                string logopath = "", logopathlm = myManifest.Properties.Logo;
+                string logopath = "", logopathlm = myAppx.Manifest.Properties.Logo;
                 if (!logopathlm.Contains("Assets"))
                     logopath = @"Assets\" + logopathlm;
                 else
@@ -91,7 +89,7 @@ namespace AppxManager.controls
                 }
                 App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    appxName.Content = $"{myAppx.Name} | {((myManifest.Properties.DisplayName == "ms-resource:AppName") ? "no valid app name" : myManifest.Properties.DisplayName)}";
+                    appxName.Content = $"{myAppx.Name} | {((myAppx.Manifest.Properties.DisplayName == "ms-resource:AppName") ? "no valid app name" : myAppx.Manifest.Properties.DisplayName)}";
                 }, null);
                 
             }

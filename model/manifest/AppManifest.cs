@@ -35,56 +35,6 @@ namespace AppxManager.model
         public PhoneIdentity? phoneIdentity { get; set; } = new PhoneIdentity();
         public Resources? Resources { get; set; } = new Resources();
 
-        public appManifestPackage(string package)
-        {
-            using (RunspacePool rsp = RunspaceFactory.CreateRunspacePool())
-            {
-                rsp.Open();
-                var sessionState = InitialSessionState.CreateDefault();
-                sessionState.ExecutionPolicy = Microsoft.PowerShell.ExecutionPolicy.Unrestricted;
-                using (PowerShell powershell = PowerShell.Create(sessionState))
-                {
-
-                    powershell.RunspacePool = rsp;
-                    powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;" +
-                                         $"Get-AppxPackage '{package}' {(appSettings.AllUsers ? " - AllUsers" : String.Empty)} | Get-AppxPackageManifest");
-                    try
-                    {
-                        Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");
-                        Collection<ErrorRecord> Errors = powershell.Streams.Error.ReadAll();
-                        foreach (PSObject apx in PSIResults)
-                        {
-                            Xml = apx.Members["xml"].Value.ToString();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                    powershell.Dispose();
-                }
-
-                using (PowerShell powershell = PowerShell.Create(sessionState))
-                {
-                    powershell.RunspacePool = rsp;
-                    powershell.AddScript("Import-Module -Name Appx -UseWIndowsPowershell;" +
-                                         $"$manifest = Get-AppxPackage '{package}' {(appSettings.AllUsers ? "-AllUsers" : String.Empty)} | Get-AppxPackageManifest;" +
-                                         "$manifest.Package.Properties");
-
-                    Collection<PSObject> PSIResults = powershell.Invoke("-ExecutionPolicy Bypass");
-                    Collection<ErrorRecord> Errors = powershell.Streams.Error.ReadAll();
-                    foreach (PSObject apx in PSIResults)
-                    {
-                        Properties.Logo = apx.Members["Logo"].Value.ToString();
-                        Properties.PublisherDisplayName = apx.Members["PublisherDisplayName"].Value.ToString();
-                        Properties.DisplayName = apx.Members["DisplayName"].Value.ToString();
-                    }
-                    powershell.Dispose();
-                }
-                sessionState = null;
-                rsp.Close();
-                rsp.Dispose();
-            }
-        }
+        public appManifestPackage() { }
     }
 }
