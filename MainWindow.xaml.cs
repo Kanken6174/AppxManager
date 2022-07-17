@@ -65,11 +65,11 @@ namespace AppxManager
         {
             foreach(appxListEntry appx in _items)
             {
-                bool hasDisplayName = (searchBox.Text != "" && appx.myAppx.DisplayName != null);
+                bool hasDisplayName = (SearchTermTextBox.Text != "" && appx.myAppx.DisplayName != null);
                 bool matches = false;
-                matches = appx.myAppx.Name.Contains_nocase(searchBox.Text);
+                matches = appx.myAppx.Name.Contains_nocase(SearchTermTextBox.Text);
                 if(hasDisplayName && !matches)
-                    matches = appx.myAppx.Manifest.Properties.DisplayName.Contains(searchBox.Text);
+                    matches = appx.myAppx.Manifest.Properties.DisplayName.Contains(SearchTermTextBox.Text);
                 if(matches)
                     appx.Visibility = Visibility.Visible;
                 else
