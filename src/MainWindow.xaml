@@ -38,10 +38,10 @@
         <DockPanel DockPanel.Dock="Top" Grid.Row="1">
             <ScrollViewer x:Name="Scroller" DockPanel.Dock="Top" Height="354">
                 <StackPanel x:Name="stacker">
-                   <!--<Control:LoadingAnimation Panel.ZIndex="10"/>-->
                 </StackPanel>
             </ScrollViewer>
         </DockPanel>
+        <Control:LoadingAnimation Panel.ZIndex="10" x:Name="loader" Grid.Row="1" Visibility="Collapsed"/>
         <Grid x:Name="bottom" VerticalAlignment="Bottom" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>

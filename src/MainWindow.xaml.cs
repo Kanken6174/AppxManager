@@ -40,6 +40,7 @@ namespace AppxManager
 
         public void LoadingCompletedHandler(List<AppxPackage> packages)
         {
+            loader.Visibility = Visibility.Collapsed;
             foreach (AppxPackage pkg in packages)
             {
                 appxListEntry appx = new appxListEntry();
@@ -54,6 +55,7 @@ namespace AppxManager
         {
             _AppxUIItems.Clear();
             stacker.Children.Clear();
+            loader.Visibility = Visibility.Visible;
             TaskQueueManager.StopAll();
             List<AppxPackage> apx = new List<AppxPackage>();
             ProcessingFinishedCallback callback = LoadingCompletedHandler;
