@@ -7,9 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="50" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="1">
     <DockPanel Background="Gray" HorizontalAlignment="Stretch">
-        <DockPanel LastChildFill="False" DockPanel.Dock="Left" Background="Gray">
-            <Image x:Name="logo" Source="/controls/winapp.jpg" Height="40" Width="55" DockPanel.Dock="Left"></Image>
-            <Label x:Name="appxName" Content="samplename" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <DockPanel LastChildFill="False" DockPanel.Dock="Left" Background="Gray" MouseUp="DockPanel_MouseUp" MouseEnter="DockPanel_MouseEnter" MouseLeave="DockPanel_MouseLeave">
+            <Image x:Name="logo" Source="/ui_controls/winapp.jpg" Height="40" Width="55" DockPanel.Dock="Left"></Image>
+            <Label x:Name="appxName" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock TextWrapping="Wrap" Text="TextBlock"/>
+            </Label>
         </DockPanel>
         <DockPanel Background="Gray" LastChildFill="False" Width="115" DockPanel.Dock="Right" HorizontalAlignment="Right">
             <Button Content="Uninstall" Width="55" Click="Button_Click" HorizontalAlignment="Right"/>

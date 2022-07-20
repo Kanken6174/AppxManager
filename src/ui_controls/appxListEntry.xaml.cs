@@ -126,5 +126,23 @@ namespace AppxManager.controls
         {
             appxManager.InstallAppx(myAppx);
         }
+
+        private void DockPanel_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ui_windows.details details = new ui_windows.details(myAppx);
+            details.logo.Source = logo.Source;
+            details.installed = installed;
+            details.Show();
+        }
+
+        private void DockPanel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Hand;
+        }
+
+        private void DockPanel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
     }
 }

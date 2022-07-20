@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="controls\winapp.jpg" />
+    <None Remove="ui_controls\winapp.jpg" />
     <None Remove="resources\windows-exe-icon-3.jpg" />
   </ItemGroup>
 
@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="controls\winapp.jpg" />
+    <Resource Include="ui_controls\winapp.jpg" />
     <Resource Include="resources\windows-exe-icon-3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
