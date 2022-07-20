@@ -49,10 +49,14 @@ namespace AppxManager
                 _AppxUIItems.Add(appx);
             }
             TaskQueueManager.StartAsync();
+            ScanButton.IsEnabled = true;
+            AllUserCheckbox.IsEnabled = true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            ScanButton.IsEnabled = false;
+            AllUserCheckbox.IsEnabled = false;
             _AppxUIItems.Clear();
             stacker.Children.Clear();
             loader.Visibility = Visibility.Visible;

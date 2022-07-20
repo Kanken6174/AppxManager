@@ -52,7 +52,7 @@
                 <ColumnDefinition Width="364*"/>
             </Grid.ColumnDefinitions>
             <CheckBox x:Name="AllUserCheckbox" Content="AllUsers (unstable)" Checked="AllUserCheckbox_Checked" Unchecked="AllUserCheckbox_Unchecked" Grid.Column="3"/>
-            <Button Content="Scan for AppX packages" HorizontalAlignment="Left" Click="Button_Click" Margin="64,0,0,0" Width="132" Height="20" Grid.Column="1"/>
+            <Button x:Name="ScanButton" Content="Scan for AppX packages" HorizontalAlignment="Left" Click="Button_Click" Margin="64,0,0,0" Width="132" Height="20" Grid.Column="1"/>
         </Grid>
     </Grid>
 </Window>
