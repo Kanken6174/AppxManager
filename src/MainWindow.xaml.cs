@@ -29,26 +29,36 @@ namespace AppxManager
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<appxListEntry> _items = new List<appxListEntry>();
+        private List<appxListEntry> _AppxUIItems = new List<appxListEntry>();
+
+        public List<AppxPackage> apx = new List<AppxPackage>();
+        public delegate void ProcessingFinishedCallback(List<AppxPackage> packages);
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void LoadingCompletedHandler(List<AppxPackage> packages)
         {
-            _items.Clear();
-            stacker.Children.Clear();
-            TaskQueueManager.StopAll();
-            List<AppxPackage> apx = appxFactory.LoadAppxs();
-            foreach (AppxPackage pkg in apx)
+            foreach (AppxPackage pkg in packages)
             {
                 appxListEntry appx = new appxListEntry();
                 appx.setAppx(pkg);
                 stacker.Children.Add(appx);
-                _items.Add(appx);
+                _AppxUIItems.Add(appx);
             }
             TaskQueueManager.StartAsync();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _AppxUIItems.Clear();
+            stacker.Children.Clear();
+            TaskQueueManager.StopAll();
+            List<AppxPackage> apx = new List<AppxPackage>();
+            ProcessingFinishedCallback callback = LoadingCompletedHandler;
+            Task t = new Task(() => apx = appxFactory.LoadAppxs(callback));
+            t.Start();
         }
 
         private void AllUserCheckbox_Checked(object sender, RoutedEventArgs e)
@@ -63,7 +73,7 @@ namespace AppxManager
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach(appxListEntry appx in _items)
+            foreach(appxListEntry appx in _AppxUIItems)
             {
                 bool hasDisplayName = (SearchTermTextBox.Text != "" && appx.myAppx.DisplayName != null);
                 bool matches = false;

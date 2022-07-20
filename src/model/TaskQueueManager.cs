@@ -12,6 +12,7 @@ namespace AppxManager.model
     public static class TaskQueueManager
     {
         public static List<Task> Queue = new List<Task>();
+        public static Task FinalTask = null;
 
         public static void StopAll()
         {
@@ -38,6 +39,11 @@ namespace AppxManager.model
             catch(NullReferenceException ex)
             {
                 return;
+            }
+            finally
+            {
+                if (FinalTask != null && !FinalTask.IsCompleted)
+                    FinalTask.RunSynchronously();
             }
         }
     }

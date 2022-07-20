@@ -5,13 +5,15 @@ using System.Linq;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace AppxManager.model.Factories
 {
     public static class appxFactory
     {
-        public static List<AppxPackage> LoadAppxs()
+        public static List<AppxPackage> LoadAppxs(MainWindow.ProcessingFinishedCallback callback)
         {
             List<AppxPackage> toReturn = new List<AppxPackage>();
 
@@ -41,6 +43,15 @@ namespace AppxManager.model.Factories
                     toReturn.Add(appxPackage);
                     index++;
                 }
+
+                TaskQueueManager.FinalTask = new Task(() =>
+                {
+                    App.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        callback(toReturn);
+                    }, null);
+                });
+
                 TaskQueueManager.StartAsync();
                 powershell.Stop();
                 powershell.Dispose();
