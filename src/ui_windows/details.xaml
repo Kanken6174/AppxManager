@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppxManager.ui_windows"
         mc:Ignorable="d"
-        Title="details" Height="450" Width="400" Background="Gray">
+        Title="details" Height="450" Width="400" Background="Gray"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -22,5 +23,45 @@
             <TextBlock x:Name="apxname" TextWrapping="Wrap" Text="Appx name" Padding="10,10,0,0"/>
             <TextBlock x:Name="apxnameFull" TextWrapping="Wrap" Text="Appx full name" Padding="10,10,0,0"/>
         </StackPanel>
+        <ScrollViewer Grid.Column="1" Grid.Row="1">
+            <TreeView>
+                <TreeView Name="myTreeViewEvent">
+                    <TreeViewItem IsExpanded="True">
+                        <TreeViewItem.Header>
+                            <TextBlock Text="{Binding Name, StringFormat='Name: {0}'}"/>
+                        </TreeViewItem.Header>
+                        <TreeViewItem>
+                            <TreeViewItem.Header>
+                                <TextBlock Text="{Binding Publisher, StringFormat='Publisher: {0}'}"/>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+                        <TreeViewItem>
+                            <TreeViewItem.Header>
+                                <TextBlock Text="{Binding Version, StringFormat='Version: {0}'}"/>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+                        <TreeViewItem>
+                            <TreeViewItem.Header>
+                                <TextBlock Text="{Binding Manifest.Properties.DisplayName, StringFormat='DisplayName: {0}'}"/>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+                        <TreeViewItem>
+                            <TreeViewItem.Header>
+                                <WrapPanel>
+                                    <Button Content="📁" Click="Button_Click" Width="20" Margin="0,0,10,0">
+                                    </Button>
+                                    <TextBlock Text="{Binding InstallLocation, StringFormat='Install location: {0}'}" HorizontalAlignment="Center"/>
+                                </WrapPanel>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+                        <TreeViewItem>
+                            <TreeViewItem.Header>
+                                <TextBlock Text="{Binding Publisher, StringFormat='Publisher: {0}'}"/>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+                    </TreeViewItem>
+                </TreeView>
+            </TreeView>
+        </ScrollViewer>
     </Grid>
 </Window>

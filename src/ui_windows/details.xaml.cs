@@ -1,7 +1,9 @@
 ﻿using AppxManager.model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,6 +32,19 @@ namespace AppxManager.ui_windows
             if (myAppx == null) return;
             apxname.Text = myAppx.Name;
             apxnameFull.Text = myAppx.Manifest.Properties.DisplayName;
+            BuildTreeViewFromAppx();
+        }
+
+        private void BuildTreeViewFromAppx()
+        {
+            base.DataContext = myAppx;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("explorer.exe", myAppx.InstallLocation);
         }
     }
+
+
 }
