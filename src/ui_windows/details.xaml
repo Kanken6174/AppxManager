@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AppxManager.ui_windows"
         mc:Ignorable="d"
-        Title="details" Height="450" Width="400" Background="Gray"
+        Title="details" Height="450" Width="550" Background="Gray"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="118"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="99*"/>
-            <RowDefinition Height="335*"/>
+            <RowDefinition Height="99.009"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Grid.Column="0">
             <Image x:Name="logo" Source="/ui_controls/winapp.jpg" DockPanel.Dock="Left"></Image>
@@ -23,41 +23,56 @@
             <TextBlock x:Name="apxname" TextWrapping="Wrap" Text="Appx name" Padding="10,10,0,0"/>
             <TextBlock x:Name="apxnameFull" TextWrapping="Wrap" Text="Appx full name" Padding="10,10,0,0"/>
         </StackPanel>
-        <ScrollViewer Grid.Column="1" Grid.Row="1">
+        <ScrollViewer Grid.Column="1" Margin="0,99,0,0" Grid.RowSpan="2">
             <TreeView>
                 <TreeView Name="myTreeViewEvent">
                     <TreeViewItem IsExpanded="True">
                         <TreeViewItem.Header>
-                            <TextBlock Text="{Binding Name, StringFormat='Name: {0}'}"/>
+                            <TextBlock Text="{Binding Name, StringFormat='𝗡𝗮𝗺𝗲: {0}'}"/>
                         </TreeViewItem.Header>
                         <TreeViewItem>
                             <TreeViewItem.Header>
-                                <TextBlock Text="{Binding Publisher, StringFormat='Publisher: {0}'}"/>
+                                <TextBlock Text="{Binding Publisher, StringFormat='𝗣𝘂𝗯𝗹𝗶𝘀𝗵𝗲𝗿: {0}'}"/>
                             </TreeViewItem.Header>
                         </TreeViewItem>
                         <TreeViewItem>
                             <TreeViewItem.Header>
-                                <TextBlock Text="{Binding Version, StringFormat='Version: {0}'}"/>
+                                <TextBlock Text="{Binding Version, StringFormat='𝗩𝗲𝗿𝘀𝗶𝗼𝗻: {0}'}"/>
                             </TreeViewItem.Header>
                         </TreeViewItem>
                         <TreeViewItem>
                             <TreeViewItem.Header>
-                                <TextBlock Text="{Binding Manifest.Properties.DisplayName, StringFormat='DisplayName: {0}'}"/>
+                                <TextBlock Text="{Binding Manifest.Properties.DisplayName, StringFormat='𝗗𝗶𝘀𝗽𝗹𝗮𝘆 𝗡𝗮𝗺𝗲: {0}'}"/>
                             </TreeViewItem.Header>
                         </TreeViewItem>
                         <TreeViewItem>
                             <TreeViewItem.Header>
                                 <WrapPanel>
-                                    <Button Content="📁" Click="Button_Click" Width="20" Margin="0,0,10,0">
+                                    <Button Content="📁" Click="Button_Click" Width="20" Margin="0,0,5,0">
                                     </Button>
-                                    <TextBlock Text="{Binding InstallLocation, StringFormat='Install location: {0}'}" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding InstallLocation, StringFormat='𝗜𝗻𝘀𝘁𝗮𝗹𝗹 𝗹𝗼𝗰𝗮𝘁𝗶𝗼𝗻: {0}'}" HorizontalAlignment="Center"/>
                                 </WrapPanel>
                             </TreeViewItem.Header>
                         </TreeViewItem>
                         <TreeViewItem>
                             <TreeViewItem.Header>
-                                <TextBlock Text="{Binding Publisher, StringFormat='Publisher: {0}'}"/>
+                                <TextBlock Text="{Binding Publisher, StringFormat='𝗣𝘂𝗯𝗹𝗶𝘀𝗵𝗲𝗿: {0}'}"/>
                             </TreeViewItem.Header>
+                        </TreeViewItem>
+                        <TreeViewItem>
+                            <TreeViewItem.Header>
+                                <TextBlock Text="{Binding NonRemovable, StringFormat='𝗥𝗲𝗺𝗼𝘃𝗮𝗯𝗹𝗲 (often wrong): {0}'}"/>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+                        <TreeViewItem>
+                            <TreeViewItem.Header>
+                                <TextBlock Text="Manifest"/>
+                            </TreeViewItem.Header>
+                            <TreeViewItem>
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{Binding myAppx.Manifest.Properties.PublisherDisplayName, StringFormat='𝗣𝘂𝗯𝗹𝗶𝘀𝗵𝗲𝗿𝗗𝗶𝘀𝗽𝗹𝗮𝘆𝗡𝗮𝗺𝗲: {0}'}"/>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
                         </TreeViewItem>
                     </TreeViewItem>
                 </TreeView>
